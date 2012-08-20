@@ -7,11 +7,9 @@ from json import loads as json_load
 class Request():
     """ Last FM API request handler class """
 
+    API_KEY = u"b11d3ce81059f8563bf1113af65beba5"
     API_URL = "http://ws.audioscrobbler.com/2.0/?"
     REQUEST_FORMAT = "json"
-
-    def __init__(self):
-        pass
 
     def __get__(self, url):
         """ http GET method requests handler """
@@ -30,4 +28,5 @@ class Request():
         if not data:
             raise Exception("Invalid url params")
         data['format'] = self.REQUEST_FORMAT
-        return urlencode(data)
+        data['api_key'] = self.API_KEY
+        return self.API_URL + urlencode(data)

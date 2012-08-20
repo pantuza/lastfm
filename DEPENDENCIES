@@ -5,5 +5,7 @@
 nose - pip install nose
 rudolf - pip install rudolf2
 splinter - pip install splinter
+ipdb - pip install ipdb
+
 # if necessary make a link from /usr/lib64/chromium/chromedriver to /usr/bin
 chromedriver - zypper install chromedriver
