@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.request import Request
+from lastfm.src.request import Request
 from nose.tools import assert_equal
 from nose.tools import raises
 
