@@ -15,4 +15,4 @@ class TestRequest(Request):
     @raises(Exception)
     def test_make_invalid_url(self):
         """ Testing invalid url """
-        self.__makeUrl__()
+        self.__makeurl__()

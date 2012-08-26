@@ -1,9 +1,10 @@
 # vim files
 *.swp
+*.swo
 *~
 
 # python 
 *.pyc
 
-# selenium webdriver
-*.log
+# secrets file
+secrets.py

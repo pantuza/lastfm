@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from request import Request
+from src.request import Request
 from urllib import urlencode
-import md5
+from hashlib import md5
 
 
 class Auth(Request):
@@ -9,76 +9,63 @@ class Auth(Request):
 
     AUTH_URL = u"http://www.last.fm/api/auth/"
     API_SECRET = u"9435542fa196464b5306e28a0939e6f1"
-    
-    def __init__(self, token=None):
-        if not token:
-            self.__token = self.getToken()
+
+    def __init__(self, session=None):
+        """ Create Auth object """
+        super(Auth, self).__init__()
+        if session:
+            self.__session = session
         else:
-            self.__token = token
-        self.__signature = self.__signatureGenerator()
+            self.__token = self.get_token()
 
-    def getUser(self):
-        """ Get LAST FM authenticated user name """
-        try:
-            return self.__user
-        except AttributeError:
-            raise Exception("User not authenticated")
+    def sign(self, data):
+        """ Generates the API signature based on API documentation """
+        data['api_key'] = self.API_KEY
+        keys = data.keys()
+        keys.sort()
+        sig_parts = [key + data[key] for key in keys]
 
-    def __signatureGenerator(self):
-        """
-        Generates the API signature based on API_KEY, user token
-        and API_SECRET as defined by API documentation:
+        signature = "".join(sig_parts) + self.API_SECRET
+        return md5(signature).hexdigest()
 
-            'api_keyxxxxxxxxmethodauth.getSessiontokenxxxxxxx'
-        """
-        signature = u"api_key%smethodauth.getSessiontoken%s%s" % (
-                    self.API_KEY, self.__token, self.API_SECRET)
-
-        return md5.new(signature).hexdigest()
-
-    def getToken(self):
+    def get_token(self):
         """ Request an user token """
         try:
             return self.__token
         except AttributeError:
-            data = {'method': "auth.getToken"}
-            url = self.__makeUrl__(data)
+            data = {'method': "auth.get_token"}
+            url = self.__makeurl__(data)
             response = self.__get__(url)
             self.__token = response['token']
             return self.__token
 
-    def getUserAuthUrl(self):
-        """ This method returns the url that your application have to 
-        open it in a Browser to user give permission to the application. 
-        After that, the token used in the url will be consumed by the 
-        LAST FM API and you can request the user session using the 
-        getSession method of the class
+    def get_auth_url(self):
+        """ This method returns the url that your application have to
+        open it in a Browser to user give permission to the application.
+        After that, the token used in the url will be consumed by the
+        LAST FM API and you can request the user session using the
+        get_session method of the class
         """
-        authUrl = "http://www.last.fm/api/auth/?"
+        auth_url = "http://www.last.fm/api/auth/?"
         data = {'api_key': self.API_KEY,
                 'token': self.__token}
-        queryStr = urlencode(data)
-        return authUrl + queryStr
+        query_str = urlencode(data)
+        return auth_url + query_str
 
-    def getSession(self):
+    def get_session(self):
         """ Get the user session from Last FM """
         try:
             return self.__session
         except AttributeError:
 
             data = {'method': "auth.getSession",
-                    'token': self.__token,
-                    'api_sig': self.__signature}
-            url = self.__makeUrl__(data)
+                    'token': self.__token}
+            data['api_sig'] = self.sign(data)
+            url = self.__makeurl__(data)
             response = self.__get__(url)
             self.__session = response['session']['key']
-            self.__user = response['session']['name']
             return self.__session
 
-    def getSignature(self):
-        """ Get the API signature """
-        try:
-            return self.__signature
-        except AttributeError:
-            self.__signature = self.__signatureGenerator()
-            return self.__signature
+    def authenticated(self):
+        """ Verify if the Auth object is authenticated with Lastfm """
+        return hasattr(self, '__session')

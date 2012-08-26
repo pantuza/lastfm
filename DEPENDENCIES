@@ -1,11 +1,17 @@
 # This file describes the project dependencies
+#
+# You can run make deps to install all this dependencies
+# It will pass requirements.txt as the source index to pip
+#
+# The following python packages are necessary to run code tests
+nose - http://pypi.python.org/pypi/nose/
+    sudo pip install nose
 
-# To run the tests is necessary to have the following 
-# python packages installed:
-nose - pip install nose
-rudolf - pip install rudolf2
-splinter - pip install splinter
-ipdb - pip install ipdb
+rudolf - http://pypi.python.org/pypi/rudolf2
+    sudo pip install rudolf2
 
-# if necessary make a link from /usr/lib64/chromium/chromedriver to /usr/bin
-chromedriver - zypper install chromedriver
+ipdb - http://pypi.python.org/pypi/ipdb
+    sudo pip install ipdb
+
+pylint - http://pypi.python.org/pypi/pylint 
+    sudo pip install pylint

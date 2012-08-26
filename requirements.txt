@@ -1,0 +1,4 @@
+nose
+rudolf2
+ipdb
+pylint

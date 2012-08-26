@@ -4,7 +4,7 @@ from urllib import urlencode
 from json import loads as json_load
 
 
-class Request():
+class Request(object):
     """ Last FM API request handler class """
 
     API_KEY = u"b11d3ce81059f8563bf1113af65beba5"
@@ -17,13 +17,10 @@ class Request():
 
         if response.code != 200:
             raise Exception("Request error :(")
-        try:
-            return json_load(response.read())
 
-        except Exception as GetRequestException:
-            raise GetRequestException("Error on request load")
+        return json_load(response.read())
 
-    def __makeUrl__(self, data=None):
+    def __makeurl__(self, data=None):
         """ Creates a valid url to request API """
         if not data:
             raise Exception("Invalid url params")
