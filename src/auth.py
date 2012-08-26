@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.request import Request
+from lastfm.src.request import Request
 from urllib import urlencode
 from hashlib import md5
 
@@ -12,7 +12,6 @@ class Auth(Request):
 
     def __init__(self, session=None):
         """ Create Auth object """
-        super(Auth, self).__init__()
         if session:
             self.__session = session
         else:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from src.request import Request
-from src.auth import Auth
+from lastfm.src.request import Request
+from lastfm.src.auth import Auth
 
 
 class Artist(Request):
@@ -9,7 +9,6 @@ class Artist(Request):
 
     def __init__(self, name=None):
         """ Creates an Artist object """
-        super(Artist, self).__init__()
         if not name:
             raise Exception("No name given")
         self.__name = name

@@ -32,7 +32,12 @@ pep8:
 # Run pylint into source files
 pylint:
 	@clear
-	@pylint src/*.py --reports=no --include-ids=y
+	@pylint ./{src,tests} --rcfile=pylint.rc
+
+# Run pylint rule with reports on
+report:
+	@clear
+	@pylint src --rcfile=pylint.rc --reports=y | more
 
 # Install project dependencies
 deps: requirements.txt

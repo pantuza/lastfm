@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-from src.auth import Auth
+from lastfm.src.auth import Auth
 from nose.tools import assert_equal
 from nose.tools import assert_true
-from secrets import mysession
+from lastfm.secrets import mysession
 
 
 class TestAuth():
+
+    def __init__(self):
+        self.auth = None
 
     def setup(self):
         """ Execute for every test case """
         self.auth = Auth(mysession)
 
-    def test_get_token(self):
+    @classmethod
+    def test_get_token(cls):
         """ Testing the token request """
         auth = Auth()
         token = auth.getToken()
