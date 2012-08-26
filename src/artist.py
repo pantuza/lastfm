@@ -24,7 +24,8 @@ class Artist(Request):
         url = self.__makeurl__(data)
         return self.__get__(url)
 
-    def get_events(self, limit=None, page=None, correct=False, festivals=False):
+    def get_events(self, limit=None, page=None,
+                   correct=False, festivals=False):
         """ Retrieves artist events """
         data = {'method': "artist.getevents",
                 'artist': self.__name}

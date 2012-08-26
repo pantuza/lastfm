@@ -19,16 +19,14 @@ class TestArtist():
 
     def setup(self):
         self.artist = Artist("the strokes")
-    
-    @classmethod
-    def assert_error_key(cls, dictionary):
+
+    def assert_error_key(self, dictionary):  # pylint: disable=R0201
         assert_not_in("error", dictionary)
-    
-    @classmethod
+
     @raises(Exception)
-    def test_object_exception(cls):
+    def test_object_exception(self):
         """ Testing Artist object creation failure """
-        Artist()
+        self.artist = Artist()
 
     def test_corrections(self):
         """ Testing Artist correction """

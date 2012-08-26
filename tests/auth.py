@@ -14,11 +14,10 @@ class TestAuth():
         """ Execute for every test case """
         self.auth = Auth(mysession)
 
-    @classmethod
-    def test_get_token(cls):
+    def test_get_token(self):
         """ Testing the token request """
-        auth = Auth()
-        token = auth.getToken()
+        self.auth = Auth()
+        token = self.auth.get_token()
         assert_true(isinstance(token, basestring))
         assert_equal(len(token), 32)
 

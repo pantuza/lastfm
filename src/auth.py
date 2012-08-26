@@ -32,7 +32,7 @@ class Auth(Request):
         try:
             return self.__token
         except AttributeError:
-            data = {'method': "auth.get_token"}
+            data = {'method': "auth.gettoken"}
             url = self.__makeurl__(data)
             response = self.__get__(url)
             self.__token = response['token']
