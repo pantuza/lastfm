@@ -13,9 +13,17 @@ class Artist(Request):
             raise Exception("No name given")
         self.__name = name
 
-    def add_tag(self):
+    def add_tags(self, tags=None, auth=None):
         """ Add tags to artist """
-        pass
+        if tags and auth and isinstance(auth, Auth):
+            data = {'method': "artist.addtags",
+                    'artist': self.__name,
+                    'tags': tags,
+                    'sk': auth.get_session()}
+            data['api_sig'] = auth.sign(data)
+        else:
+            raise Exception("Need Auth object parameter to request")
+        return self.__post__(data)
 
     def get_correction(self):
         """ Retrieves artist corrections (canonical artist) """

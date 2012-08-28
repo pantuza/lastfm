@@ -28,6 +28,21 @@ class TestArtist():
         """ Testing Artist object creation failure """
         self.artist = Artist()
 
+    def test_add_tags(self):
+        """ Testing Artist add tags """
+        tag = u'test api'
+        auth = Auth(mysession)
+        tags = self.artist.add_tags(tags=tag, auth=auth)
+        assert_equal(tags['status'], 'ok')
+        tags = self.artist.get_tags(auth=auth)
+        assert_true(isinstance(tags, dict))
+        assert_equal(tags['tags']['tag']['name'], tag)
+
+    @raises(Exception)
+    def test_add_tag_with_no_auth(self):
+        """ Testing Artist add tag with no auth parameter """
+        self.artist.get_tags(tags='test api')
+
     def test_corrections(self):
         """ Testing Artist correction """
         correction = self.artist.get_correction()
@@ -35,7 +50,7 @@ class TestArtist():
         assert_greater(len(correction), 0)
         self.assert_error_key(correction)
 
-    def test_artist_events(self):
+    def test_events(self):
         """ Testing Artist events """
         events = self.artist.get_events()
         assert_true(isinstance(events, dict))

@@ -11,14 +11,28 @@ class Request(object):
     API_URL = "http://ws.audioscrobbler.com/2.0/?"
     REQUEST_FORMAT = "json"
 
-    def __get__(self, url):
-        """ http GET method requests handler """
-        response = urlopen(url)
+    def __init__(self):
+        self.__response = None
 
-        if response.code != 200:
+    def __get__(self, url):
+        """ http GET request method handler """
+        self.__response = urlopen(url)
+
+        if self.__ok__():
+            return json_load(self.__response.read())
+        else:
             raise Exception("Request error :(")
 
-        return json_load(response.read())
+    def __post__(self, data):
+        """ Http POST request method handler """
+        data['api_key'] = self.API_KEY
+        data['format'] = self.REQUEST_FORMAT
+        self.__response = urlopen(self.API_URL, urlencode(data))
+
+        if self.__ok__():
+            return json_load(self.__response.read())
+        else:
+            raise Exception("Request error :(")
 
     def __makeurl__(self, data=None):
         """ Creates a valid url to request API """
@@ -27,3 +41,7 @@ class Request(object):
         data['format'] = self.REQUEST_FORMAT
         data['api_key'] = self.API_KEY
         return self.API_URL + urlencode(data)
+
+    def __ok__(self):
+        """ Verify request success """
+        return self.__response.code == 200
