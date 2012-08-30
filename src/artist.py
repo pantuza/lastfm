@@ -48,13 +48,20 @@ class Artist(Request):
         url = self.__makeurl__(data)
         return self.__get__(url)
 
-    def get_info(self):
+    def get_info(self, lang=None, username=None, correct=False):
         """ Retrieves artist full informations """
         data = {'method': "artist.getinfo",
                 'artist': self.__name}
+        if lang:
+            data['lang'] = lang
+        if username:
+            data['username'] = username
+        if correct:
+            data['autocorrect'] = "1"
         url = self.__makeurl__(data)
         return self.__get__(url)
 
+    # TODO: Implement all method parameters
     def get_past_events(self):
         """ Retrieves artist past events """
         data = {'method': "artist.getpastevents",
