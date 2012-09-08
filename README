@@ -6,7 +6,7 @@ NAME
 
 DESCRIPTION
 
-        Lastfm API library writen in Python. Iplements Lastfm API methods 
+        Lastfm API library written in Python. Iplements Lastfm API methods 
     as described in its [documentation](http://www.last.fm/api). 
 
 USAGE

@@ -7,7 +7,7 @@ Last Fm
 
 ### Description
 
-        Lastfm API library writen in Python. Implements Lastfm API methods 
+        Lastfm API library written in Python. Implements Lastfm API methods 
     as described in its [documentation](http://www.last.fm/api). 
 
 ### Usage
