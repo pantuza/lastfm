@@ -5,6 +5,7 @@ from lastfm.src.auth import Auth
 from lastfm.tests import Utils
 from nose.tools import assert_in
 from nose.tools import assert_equal
+from nose.tools import assert_not_equal
 from nose.tools import raises
 from lastfm.secrets import mysession
 
@@ -100,16 +101,63 @@ class TestArtist():
         """ Testing Artist past events """
         past_events = self.artist.get_past_events()
         self.utils.assert_response_content(past_events)
+        assert_in('event', past_events['events'])
+
+    def test_past_events_page(self):
+        """ Testing Artist past events with page parameter """
+        past_events = self.artist.get_past_events(page=2)
+        self.utils.assert_response_content(past_events)
+        assert_in('event', past_events['events'])
+
+    def test_past_events_correct(self):
+        """ Testing Artist past event with correct parameter """
+        self.artist = Artist("the stroke")
+        past_events = self.artist.get_past_events(correct=True)
+        self.utils.assert_response_content(past_events)
+        assert_in(u"The Strokes", past_events['events']['@attr']['artist'])
+
+    def test_past_events_limit(self):
+        """ Testing Artist past event with limit parameter """
+        past_events = self.artist.get_past_events(limit=1)
+        self.utils.assert_response_content(past_events)
+        del past_events['events']['@attr']
+        assert_equal(len(past_events), 1)
 
     def test_podcast(self):
         """ Testing Artist podcast """
         podcast = self.artist.get_podcast()
         self.utils.assert_response_content(podcast)
 
+    def test_podcast_correct(self):
+        """ Testing Artist podcast with correct parameter """
+        self.artist = Artist('The stroke')
+        podcast = self.artist.get_podcast(correct=True)
+        self.utils.assert_response_content(podcast)
+
     def test_shouts(self):
         """ Testing Artist shouts """
         shouts = self.artist.get_shouts()
         self.utils.assert_response_content(shouts)
+
+    def test_shouts_limit(self):
+        """ Testing Artist shouts with limit parameter """
+        shouts = self.artist.get_shouts(limit=1)
+        self.utils.assert_response_content(shouts)
+        del shouts['shouts']['@attr']
+        assert_equal(len(shouts['shouts']), 1)
+
+    def test_shouts_page(self):
+        """ Testing Artist shouts with page parameter """
+        shouts = self.artist.get_shouts(page=2)
+        self.utils.assert_response_content(shouts)
+        assert_equal(shouts['shouts']['@attr']['page'], "2")
+
+    def test_shouts_correct(self):
+        """ Testing Artist shouts with correct parameter """
+        self.artist = Artist("the stroke")
+        shouts = self.artist.get_shouts(correct=True)
+        self.utils.assert_response_content(shouts)
+        assert_equal(u"The Strokes", shouts['shouts']['@attr']['artist'])
 
     def test_similar_artists(self):
         """ Testing similar artists """
@@ -199,6 +247,14 @@ class TestArtist():
         tracks = self.artist.get_top_tracks(correct=True)
         self.utils.assert_response_content(tracks)
 
+    def test_remove_tags(self):
+        """ Testing Artist add tags """
+        tag = u'test api'
+        auth = Auth(mysession)
+        tags = self.artist.remove_tag(tag=tag, auth=auth)
+        self.utils.assert_response_content(tags)
+        assert_equal(tags['status'], 'ok')
+
     def test_search(self):
         """ Testing Artist search """
         result = Artist.search(artist="the st")
@@ -213,3 +269,24 @@ class TestArtist():
         """ Testing Artist search with page parameter """
         result = Artist.search(artist="the st", page=2)
         self.utils.assert_response_content(result)
+
+    def test_artist_share(self):
+        """ Testing Artist share """
+        auth = Auth(mysession)
+        share = self.artist.share(recipient="pantuza", message="api test",
+                                  public=True, auth=auth)
+
+        self.utils.assert_response_content(share)
+        assert_equal(share['status'], 'ok')
+
+    @raises(Exception)
+    def test_exception_on_shout(self):
+        """ Testing Artist shout with no message """
+        self.artist.shout()
+
+    def test_post_shout(self):
+        """ Testing Artist shout """
+        auth = Auth(mysession)
+        shout = self.artist.shout(message="nice Indie rock band", auth=auth)
+        self.utils.assert_response_content(shout)
+        assert_equal(shout['status'], 'ok')

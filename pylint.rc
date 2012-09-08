@@ -44,4 +44,4 @@ max-args=5
 min-public-methods=0
 
 # maximum number of public methods
-max-public-methods=40
+max-public-methods=60
