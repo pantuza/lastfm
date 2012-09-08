@@ -5,6 +5,8 @@
 
 # python 
 *.pyc
+*.pym
+*.pyo
 
 # secrets file
 secrets.py

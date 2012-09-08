@@ -7,7 +7,7 @@ Last Fm
 
 ### Description
 
-        Lastfm API library writen in Python. It implements Lastfm API methods 
+        Lastfm API library writen in Python. Implements Lastfm API methods 
     as described in its [documentation](http://www.last.fm/api). 
 
 ### Usage
@@ -71,6 +71,24 @@ artist = Artist("the strokes")
 # than the library makes the magic for you signing the request
 tags = artist.get_tags(auth=auth)
 ```
+
+### Development Status
+    The current Library only implements the Artists methods from the
+Last FM API. It's under development, so if you want to contribute, fork me :)
+
+### Contributions
+
+    The library was written using Test Driven Development. If you want to 
+contribute, make shure your code pass on all tests and in the new tests that 
+you could create. 
+    Read the DEPENDENCIES file to see wich test libs are used to validate 
+the code. 
+    During the development, use the Makefile. Inside it, there are rules to 
+validate the python code with pep8 and pylint tools as well as test rules that
+will run tests for an especific module (artist, auth, etc).
+    If will be necessary to add new python libraries to the code, do not forget 
+to add it to requirements.txt file
+    Enjoy coding \o/
 
 ### Author
 
