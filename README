@@ -6,8 +6,11 @@ NAME
 
 DESCRIPTION
 
-        Lastfm API library written in Python. Iplements Lastfm API methods 
-    as described in its [documentation](http://www.last.fm/api). 
+        Lastfm API library written in Python. Implements Lastfm API methods 
+    as described in its [documentation](http://www.last.fm/api)
+    You can use this library for Web/Desktop aplications. All the requests
+    are using JSON as response format, just because xml is boring :)
+    enjoy the library!
 
 USAGE
 

@@ -273,7 +273,7 @@ class TestArtist():
     def test_artist_share(self):
         """ Testing Artist share """
         auth = Auth(mysession)
-        share = self.artist.share(recipient="pantuza", message="api test",
+        share = self.artist.share(recipient="lastfm", message="api test",
                                   public=True, auth=auth)
 
         self.utils.assert_response_content(share)
