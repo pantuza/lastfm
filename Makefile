@@ -24,6 +24,11 @@ test_artist:
 	@clear
 	@nosetests tests/artist.py ${nose_options}
 
+# run album tests
+test_album:
+	@clear
+	@nosetests tests/album.py ${nose_options}
+
 # Run pep8 command line tool for every python file
 pep8:
 	@clear

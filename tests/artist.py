@@ -5,7 +5,6 @@ from lastfm.src.auth import Auth
 from lastfm.tests import Utils
 from nose.tools import assert_in
 from nose.tools import assert_equal
-from nose.tools import assert_not_equal
 from nose.tools import raises
 from lastfm.secrets import mysession
 

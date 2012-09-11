@@ -13,6 +13,9 @@ class Artist(Request):
             raise Exception("No name given")
         self.__name = name
 
+    def get_name(self):
+        return self.__name
+
     def basic_data(self, method):
         return {'method': method,
                 'artist': self.__name}
@@ -186,7 +189,7 @@ class Artist(Request):
         if limit:
             data['limit'] = limit
         if page:
-            data['page'] = artist
+            data['page'] = page
         url = Request.API_URL + urlencode(data)
         return loads(urlopen(url).read())
 
