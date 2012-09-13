@@ -29,6 +29,12 @@ test_album:
 	@clear
 	@nosetests tests/album.py ${nose_options}
 
+# run chart tests
+test_chart:
+	@clear
+	@nosetests tests/chart.py ${nose_options}
+
+
 # Run pep8 command line tool for every python file
 pep8:
 	@clear

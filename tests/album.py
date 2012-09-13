@@ -89,14 +89,14 @@ class TestAlbum:
         assert_equal(shouts['shouts']['@attr']['page'], '2')
 
     def test_get_tags(self):
-        """ Testing album tags """
+        """ Testing Album tags """
         auth = Auth(mysession)
         tags = self.album.get_tags(auth=auth)
         self.utils.assert_response_content(tags)
         assert_in("name", tags['tags']['tag'])
 
     def test_get_tags_with_user(self):
-        """ Testing album tags with username """
+        """ Testing Album tags with username """
         tags = self.album.get_tags(user="pantuza")
         self.utils.assert_response_content(tags)
         del tags['tags']['@attr']
@@ -140,7 +140,7 @@ class TestAlbum:
 
     @raises(Exception)
     def test_share_with_no_auth(self):
-        """ Testing album share with no auth object """
+        """ Testing Album share with no auth object """
         self.album.share(recipient="lastfm", message="api test",
                          public=True)
 
