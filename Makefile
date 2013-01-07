@@ -38,6 +38,11 @@ test_chart:
 test_event:
 	@clear
 	@nosetests tests/event.py ${nose_options}
+	
+# run geo tests
+test_geo:
+	@clear
+	@nosetests tests/geo.py ${nose_options}
 
 # Run pep8 command line tool for every python file
 pep8:
