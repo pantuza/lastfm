@@ -12,17 +12,18 @@ class Geo(Request):
     """
 
     def __init__(self):
-        self.geo_long = None
-        self.geo_lat = None
+        self.long = None
+        self.lat = None
         self.location = None
         self.distance = None
         self.page = None
         self.tag = None
-        self.festivals = None
+        self.festivalsonly = None
         self.limit = None
 
 
     def parse_args(func):
+        """ Generic method to assign arguments to class instance """
 
         @wraps(func)
         def inner(self, *args, **kwargs):
@@ -34,11 +35,26 @@ class Geo(Request):
  
         return inner
 
+    def make_data(self, method):
+        """ Generic method that creates the request data dictionary """
+
+        data = {"method": method}
+
+        for key, value in self.__dict__.items():
+            if value is not None:
+                data[key] = value
+
+        if len(data) > 1:
+            return data
+
+        raise Exception("Insufficient data provided")
+
     @parse_args
     def get_events(self, *args, **kwargs):
-        import ipdb
-        ipdb.set_trace()
-       
+
+        url = self.__makeurl__(self.make_data("geo.getEvents"))
+        return self.__get__(url)
+
 
 #    def get_metro_artist_chart(self):
 #    def get_metro_hype_artist_chart(self):
