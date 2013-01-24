@@ -6,9 +6,9 @@ from functools import wraps
 
 
 class Geo(Request):
-    """ 
-        Implements Last FM Geo methods. 
-        Get all events in a specific location by country or city name 
+    """
+        Implements Last FM Geo methods.
+        Get all events in a specific location by country or city name
     """
 
     def __init__(self):
@@ -20,7 +20,10 @@ class Geo(Request):
         self.tag = None
         self.festivalsonly = None
         self.limit = None
-
+        self.metro = None
+        self.country = None
+        self.start = None
+        self.end = None
 
     def parse_args(func):
         """ Generic method to assign arguments to class instance """
@@ -32,7 +35,7 @@ class Geo(Request):
                 self.__dict__[attr] = kwargs.get(attr, None)
 
             return func(self, *args, **kwargs)
- 
+
         return inner
 
     def make_data(self, method):
@@ -51,12 +54,19 @@ class Geo(Request):
 
     @parse_args
     def get_events(self, *args, **kwargs):
-
+        """ Get all events in a specific location by country or city name """
         url = self.__makeurl__(self.make_data("geo.getEvents"))
         return self.__get__(url)
 
+    @parse_args
+    def get_metro_artist_chart(self, *args, **kwargs):
+        """ Get a chart of artists for a metro """
+        if not self.metro or not self.country:
+            raise Exception("Missing metro name or country name parameters")
 
-#    def get_metro_artist_chart(self):
+        url = self.__makeurl__(self.make_data("geo.getMetroArtistChart"))
+        return self.__get__(url)
+
 #    def get_metro_hype_artist_chart(self):
 #    def get_metro_hype_track_chart(self):
 #    def get_metro_track_chart(self):
